@@ -1,19 +1,19 @@
-# Use PHP 8.2 with Apache
+# Use PHP 8.2 + Apache
 FROM php:8.2-apache
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Copy project files
-COPY . .
-
-# Install PHP extensions needed for Laravel
+# Install PHP extensions for Laravel
 RUN apt-get update && apt-get install -y \
     zip unzip git libonig-dev \
     && docker-php-ext-install pdo pdo_mysql mbstring
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php \
+    -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy project files
+COPY . .
 
 # Expose Apache port
 EXPOSE 80
